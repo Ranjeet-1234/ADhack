@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Zone Map</title>
+    <link rel="stylesheet" href="./map.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+
+<body>
+    <div class="container">
+        <h2>Map View of Risk Zone</h2>
+        <div id="map" class="map"></div>
+        <div class="about">
+            <h2>About</h2>
+            <p>
+                A risk zone is a geographical area where specific conditions pose a higher level of risk or potential harm. 
+                These conditions could include natural disasters, public health emergencies, industrial accidents, or other events.
+                Real-world risk zone mapping involves the collection and analysis of diverse data sources. This may include geospatial data, 
+                environmental data, demographic information, historical records, and real-time data from sensors or monitoring systems.
+            </p>
+            <p>
+                Geographic Information System (GIS) technologies play a crucial role in risk zone mapping. 
+                GIS enables the integration, analysis, and visualization of spatial data to identify patterns, trends, and areas of concern.
+                Risk zones are often associated with specific hazards, such as flood-prone areas, earthquake zones, wildfire-prone regions,
+                or zones with high pollution levels. Identifying vulnerabilities, including population density and infrastructure, is essential.
+            </p>
+            <p>
+                Governments, emergency responders, and organizations use risk zone maps to develop and implement effective emergency 
+                preparedness and response plans. This includes evacuation routes, resource allocation, and communication strategies.
+                Communicating risks to the public is crucial. Risk zone maps can be used to raise awareness among residents, businesses, 
+                and community stakeholders. Public education efforts often focus on preparedness measures and safety guidelines.
+            </p>
+            <p>
+                In the context of public health, risk zones may represent areas with a higher prevalence of diseases, such as COVID-19 hotspots
+                or regions affected by vector-borne diseases. Health authorities use such maps for targeted interventions and resource allocation.
+                Security agencies may use risk zone mapping for assessing and addressing security threats. 
+                This could include areas prone to criminal activities, political instability, or terrorism.
+                Risk zone mapping is a critical component of environmental impact assessments. 
+                It helps identify areas at risk of ecological damage due to human activities or natural phenomena.
+                Risk zone maps are dynamic and require continuous monitoring and updating. Real-time data feeds, 
+                satellite imagery, and sensor networks contribute to keeping the maps current and relevant.
+            </p>
+            
+        </div>
+    </div>  
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([0, 0], 2); // Set initial center and zoom level
+
+        // Add a base map layer (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Geocode a place by name using Nominatim
+        var placeName = 'Pune';
+
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(placeName)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    // Take the first result as the location
+                    var location = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+                    console.log(location)
+
+                    // Define coordinates for the risk zone polygon
+                    var riskZoneCoordinates = [
+                        [location[0] + 0.15, location[1] - 0.15],
+                        [location[0] + 0.15, location[1] + 0.15],
+                        [location[0] - 0.15, location[1] + 0.15],
+                        [location[0] - 0.15, location[1] - 0.15],
+                    ];
+
+                    // Create a risk zone polygon
+                    var riskZonePolygon = L.polygon(riskZoneCoordinates, {
+                        color: 'red',
+                        fillColor: 'red',
+                        fillOpacity: 0.3,
+                    }).addTo(map);
+
+                    // Center the map on the geocoded location
+                    map.setView(location, 10);
+
+                    // Add hospital markers within the risk zone (replace with actual coordinates)
+                    var hospitals = [
+                        { name: 'Lilivati Hoapital', coordinates: [location[0] + 0.1, location[1] - 0.1] },
+                        { name: 'Lilivati Hoapital', coordinates: [location[0] - 0.1, location[1] - 0.1] },
+                        { name: 'LataMangeshkar Hospital', coordinates: [location[0] + 0.09, location[1] + 0.05] },
+                        { name: 'Apollo Spectra Hospitals', coordinates: [location[0] + 0.01, location[1] - 0.04] },
+                        { name: 'Deccan Hardikar Hospital', coordinates: [location[0] - 0.06, location[1] + 0.06] },
+                        { name: 'City Hospital', coordinates: [location[0] + 0.11, location[1] + 0.11] },
+                        { name: 'Satyanand Hospital', coordinates: [location[0] - 0.05, location[1] + 0.13] },
+                        // Add more hospitals as needed
+                    ];
+                    var redMarkerIcon = L.icon({
+                        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+                        shadowSize: [41, 41],
+                    });
+
+                    hospitals.forEach(hospital => {
+                        L.marker(hospital.coordinates,{ icon: redMarkerIcon })
+                            .bindPopup(`<b>${hospital.name}</b><br>Hospital details go here.`)
+                            .addTo(map);
+                    });
+                } else {
+                    console.error('Geocoding failed: No results');
+                }
+            })
+            .catch(error => console.error('Geocoding failed:', error));
+    </script>
+</body>
+   
+</html>

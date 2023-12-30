@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Table Section</title>
+  <link rel="stylesheet" href="table.css">
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
+  <script>
+    google.charts.load('current', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(ColumnChart);
+    google.charts.setOnLoadCallback(PieChart);
+    google.charts.setOnLoadCallback(LineChart);
+
+    function ColumnChart() {
+      // Set Data
+      const data = google.visualization.arrayToDataTable([
+        ['Diease', 'victim'],
+        ['Eye flu', 57], ['Dengu', 10], ['Malaria', 32], ['Chickenpox', 17], ['Polio', 5]
+      ]);
+
+      // Set Options
+      const options = {
+        // title: 'Daily Analysis',
+        hAxis: { title: 'Diseases' },
+        vAxis: { title: 'No. of Victims' },
+        legend:'hello',
+        backgroundColor: '#d0d0d0',
+        borderRadius:'10px'
+      };
+      // Draw Chart
+      const chart = new google.visualization.ColumnChart(document.getElementById('columnChart'));
+      chart.draw(data, options);
+    }
+    function PieChart() {
+
+      const data = google.visualization.arrayToDataTable([
+        ['Diease', 'victim'],
+        ['Eye flu', 57], ['Dengu', 10], ['Malaria', 32], ['Chickenpox', 17], ['Polio', 5]
+      ]);
+
+      const options = {
+        backgroundColor: '#d0d0d0',
+        is3D: true
+      };
+
+      const chart = new google.visualization.PieChart(document.getElementById('PieChart'));
+      chart.draw(data, options);
+
+    }
+    function LineChart() {
+      const data = google.visualization.arrayToDataTable([
+        ['Month', 'Eye Flu', 'Dengu', 'Malaria','chickenpox','polio'],
+        ['Jan', 1000, 400, 600,890,507],
+        ['Feb', 1170, 460, 710,674,364],
+        ['Mar', 660, 1120, 400,478,290],
+        ['Apr', 1030, 540, 490,489,267]
+      ]);
+
+      const options = {
+        // title: 'Company Performance',
+        backgroundColor: '#d0d0d0',
+        curveType: 'function',
+        legend: { position: 'bottom' },
+        colors: ['#4285F4', '#34A853', '#FBBC05', '#EA4335', '#FF7F50'], // Line colors
+        trendlines: { 0: { color: 'black' } }
+      };
+
+      const chart = new google.visualization.LineChart(document.getElementById('LineChart'));
+      chart.draw(data, options);
+    }
+  </script>
+</head>
+
+
+<body>
+
+
+
+  <div class="navi-advoInf">
+    <div class="nav">
+
+      <div class="adv-logo">
+        <div class="image">
+    
+        </div>
+      </div>
+      <p>Diease Dashboard</p>
+    </div>
+
+    <div class="buttons-adv">
+
+      <div class="lawyer-logout">
+        <a href="" class="btnnn">Home</a>
+      </div>
+
+      <div class="pre-trail">
+        <a href="" class="btnnn">Profile</a>
+      </div>
+
+      <div class="pre-trail">
+        <a href="../login.html" class="btnnn">Logout</a>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+  <div class="shivamOne">
+
+
+    <div class="main-section">
+
+      <div class="table-top">
+        <h3>Dashboard as on 15-12-2023</h3>
+      </div>
+
+
+      <div class="table-data">
+
+        <table>
+          <thead>
+            <tr>
+              <th>Diseases Type</th>
+              <th>Todays Registerd</th>
+              <th>Yesterday Registerd</th>
+              <th>Weekly Registerd</th>
+              <th>Monthly Registerd</th>
+              <th>Outbreak Prediction(%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Eye Flu</td>
+              <td>35</td>
+              <td>20</td>
+              <td>123</td>
+              <td>563</td>
+              <td>60</td>
+            </tr>
+            <tr>
+              <td>Dengu</td>
+              <td>10</td>
+              <td>7</td>
+              <td>34</td>
+              <td>112</td>
+              <td>10</td>
+            </tr>
+            <tr>
+              <td>Maleria</td>
+              <td>12</td>
+              <td>15</td>
+              <td>70</td>
+              <td>356</td>
+              <td>40</td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    </div>
+
+
+    <div class="map">
+      <button type="button" class="btn"><a href="../map/map.html">View on Map</a>  </button>
+    </div>
+
+  <div class="chart">
+
+    <div class="column_chart">
+      <h3>Daily Analysis</h3>
+      <div id="columnChart" class="myChart" style="width:500px; height:500px;background-color: none;">
+
+      </div>
+    </div>
+
+    <div class="pie_chart">
+      <h3>Weekly Analysis</h3>
+      <div id="PieChart" class="myChart" style="width:500px; height:500px;">
+      </div>
+
+    </div>
+
+    <div class="line_chart">
+      <h3>Monthly Analysis</h3>
+      <div id="LineChart" class="myChart" style="width:500px; height:500px;">
+      </div>
+
+    </div>
+  </div>
+
+
+</body>
+
+
+</html>
